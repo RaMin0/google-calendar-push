@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendars</title>
+  </head>
+  <body>
+    <h1>Calendars</h1>
+    {{ if eq .State "watch" }}
+    <p>Done <small>({{ .ChannelID }})</small></p>
+    {{ else }}
+    <p>Hi {{ .UserName }}! <a href="/auth">Logout</a></p>
+    <form method="POST" action="/auth/callback">
+      {{ range .Calendars }}
+      <label style="display: block;">
+        <input type="radio" name="calendar_id" value="{{ .Id }}" />
+        <span>{{ .Summary }} <small>({{ .Id }})</small></span>
+      </label>
+      {{ end }}
+      <input type="hidden" name="access_token" value="{{ .AccessToken }}" />
+      <p><button type="submit">Choose</button></p>
+    </form>
+    {{ end }}
+  </body>
+</html>
